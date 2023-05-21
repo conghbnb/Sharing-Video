@@ -33,7 +33,7 @@ export const getVideos = async (
     if (cursor) {
       videos = await Video.find({
         createdAt: {
-          $lt: new Date(parseInt(cursor as string) * 1000),
+          $lte: new Date(parseInt(cursor as string)),
         },
       })
         .sort({ createdAt: -1 })
@@ -48,7 +48,7 @@ export const getVideos = async (
     let nextCursor = null;
     if (max) {
       const record = videos[limit];
-      var unixTimestamp = Math.floor(record.createdAt.getTime() / 1000);
+      var unixTimestamp = record.createdAt.getTime();
       nextCursor = unixTimestamp.toString();
       videos.pop();
     }
