@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { RootState, useAppDispatch } from "../../store";
-import { signin } from "../../store/slices/user";
+import { signinOrSignup } from "../../store/slices/user";
 
 const LoginOrRegisterForm = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +34,7 @@ const LoginOrRegisterForm = () => {
         return errors;
       }}
       onSubmit={(values) => {
-        dispatch(signin(values));
+        dispatch(signinOrSignup(values));
       }}
     >
       {({
@@ -90,15 +90,12 @@ const InputContainer = styled.div`
 `;
 
 const Input = styled.input`
-  background: grey;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border-radius: 2rem;
   border: none;
   outline: none;
-  color: #3c354e;
   font-size: 1rem;
   font-weight: bold;
-  padding: 10px;
+  padding: 10px 15px;
   &:focus {
     display: inline-block;
     box-shadow: 0 0 0 0.2rem #b9abe0;

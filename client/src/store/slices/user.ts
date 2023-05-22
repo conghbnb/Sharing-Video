@@ -2,10 +2,10 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "../../api/authApi";
 import { ISignInPayload, IUser } from "../types/user";
 
-export const signin = createAsyncThunk(
-  "user/signin",
+export const signinOrSignup = createAsyncThunk(
+  "user/signinOrSignup",
   async (signinPayload: ISignInPayload) => {
-    const res = await authApi.signin(signinPayload);
+    const res = await authApi.signinOrSignup(signinPayload);
     return res.data;
   }
 );
@@ -34,14 +34,17 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(signin.pending, (state) => {
+      .addCase(signinOrSignup.pending, (state) => {
         state.loading = true;
       })
-      .addCase(signin.fulfilled, (state, action: PayloadAction<IUser>) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(signin.rejected, (state) => {
+      .addCase(
+        signinOrSignup.fulfilled,
+        (state, action: PayloadAction<IUser>) => {
+          state.loading = false;
+          state.user = action.payload;
+        }
+      )
+      .addCase(signinOrSignup.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });

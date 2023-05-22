@@ -1,6 +1,6 @@
 export interface IVideo {
   _id: string;
-  userId: string;
+  user: { email: string };
   title: string;
   desc: string;
   videoUrl: string;

@@ -1,20 +1,17 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const VideoSchema = new Schema(
   {
-    userId: {
-      type: String,
+    user: {
+      type: Schema.Types.ObjectId,
       required: true,
+      ref: 'User',
     },
     title: {
       type: String,
       required: true,
     },
     desc: {
-      type: String,
-      required: true,
-    },
-    imgUrl: {
       type: String,
       required: true,
     },
@@ -26,4 +23,4 @@ const VideoSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("Video", VideoSchema);
+export default model('Video', VideoSchema);

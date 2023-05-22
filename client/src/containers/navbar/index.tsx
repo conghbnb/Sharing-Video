@@ -5,14 +5,16 @@ import LoginOrRegisterForm from "./loginOrResgisterForm";
 import { logout } from "../../store/slices/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.user);
 
   return (
     <Wrapper>
-      <div className="logo">
+      <div className="logo" onClick={() => navigate("/")}>
         <FontAwesomeIcon icon={faHome} />
         <span> Funny Movies</span>
       </div>
@@ -20,7 +22,7 @@ const Navbar = () => {
         {user ? (
           <>
             <div>Wellcome {user.email}</div>
-            <Button>Share a movie</Button>
+            <Button onClick={() => navigate("/share")}>Share a movie</Button>
             <Button onClick={() => dispatch(logout())}>Logout</Button>
           </>
         ) : (

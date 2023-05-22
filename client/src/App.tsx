@@ -4,8 +4,27 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home";
 import store from "./store";
+import ShareVideo from "./pages/share-video";
+import Layout from "./containers/layout";
 
-const router = createBrowserRouter([{ path: "/", element: <Home /> }]);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <Home />
+      </Layout>
+    ),
+  },
+  {
+    path: "/share",
+    element: (
+      <Layout>
+        <ShareVideo />
+      </Layout>
+    ),
+  },
+]);
 
 function App() {
   return (

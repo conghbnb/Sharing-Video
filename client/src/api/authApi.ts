@@ -2,15 +2,10 @@ import axiosClient from "./axiosClient";
 import { ISignInPayload } from "../store/types/user";
 
 const authApi = {
-  signin(signinPayload: ISignInPayload) {
-    const url = "auth/signin";
-    return axiosClient.post(url, signinPayload);
+  signinOrSignup(signinPayload: ISignInPayload) {
+    const url = "auth/signinOrSignup";
+    return axiosClient.post(url, signinPayload, { withCredentials: true });
   },
-
-  // signup(signupPayload) {
-  //   const url = "auth/signup";
-  //   return axiosClient.post(url, signupPayload);
-  // },
 };
 
 export default authApi;

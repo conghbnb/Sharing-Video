@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import Video from "../models/Video";
-import { CustomRequest } from "../types/common";
+import { NextFunction, Request, Response } from 'express';
+import Video from '../models/Video';
+import { CustomRequest } from '../types/common';
 
 export const addVideo = async (
   req: Request,
@@ -8,10 +8,9 @@ export const addVideo = async (
   next: NextFunction
 ) => {
   const newVideo = new Video({
-    userId: (req as CustomRequest).decodedToken.id,
+    user: (req as CustomRequest).decodedToken.id,
     ...req.body,
   });
-
   try {
     const savedVideo = await newVideo.save();
     res.status(200).json(savedVideo);
@@ -36,11 +35,13 @@ export const getVideos = async (
           $lte: new Date(parseInt(cursor as string)),
         },
       })
+        .populate('user', 'email')
         .sort({ createdAt: -1 })
         .limit(limit + 1)
         .exec();
     } else {
       videos = await Video.find({})
+        .populate('user', 'email')
         .sort({ createdAt: -1 })
         .limit(limit + 1);
     }

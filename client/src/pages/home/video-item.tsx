@@ -36,7 +36,7 @@ const VideoItem = ({ video }: { video: IVideo }) => {
       <iframe src={video.videoUrl} title="video" allowFullScreen />
       <div>
         <Title>{video.title}</Title>
-        <Text>Shared by: {video.userId}</Text>
+        <Text>Shared by: {video.user.email}</Text>
         <Text>Desciption:</Text>
         <Desc>
           {video.desc.split(/\\n+/).map((p) => (

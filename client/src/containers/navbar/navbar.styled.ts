@@ -16,6 +16,7 @@ export const Wrapper = styled.nav`
   .logo {
     font-size: 30px;
     text-align: left;
+    cursor: pointer;
   }
 
   .nav-links {
