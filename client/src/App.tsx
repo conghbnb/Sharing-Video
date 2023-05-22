@@ -3,9 +3,10 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home";
-import store from "./store";
+import store, { persistor } from "./store";
 import ShareVideo from "./pages/share-video";
 import Layout from "./containers/layout";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +30,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </PersistGate>
     </Provider>
   );
 }
