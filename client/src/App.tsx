@@ -1,20 +1,40 @@
-import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./store";
-import router from "./route";
 
-function App() {
+import { useEffect } from "react";
+import router from "./route";
+import { socket } from "./socket-io";
+import { RootState } from "./store";
+
+const App = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      socket.connect();
+    }
+    return () => {
+      socket.disconnect();
+    };
+  }, [user]);
+
+  useEffect(() => {
+    socket.on("notify", (message) => {
+      toast(message);
+    });
+    return () => {
+      socket.removeAllListeners();
+    };
+  }, []);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RouterProvider router={router} />
-        <ToastContainer />
-      </PersistGate>
-    </Provider>
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
   );
-}
+};
 
 export default App;

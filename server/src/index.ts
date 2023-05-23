@@ -1,20 +1,14 @@
 import express, { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import authRouter from './routes/auth';
+import authRouter from './routes/auth.route';
 import { CustomError } from './utils/custom-error';
-import videoRouter from './routes/video';
+import videoRouter from './routes/video.route';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
+import './mongo';
 
 const app = express();
-dotenv.config();
-
-const connect = () => {
-  mongoose.connect(process.env.MONGO as string).then(() => {
-    console.log('Connected to db');
-  });
-};
 
 app.use(
   cors({
@@ -37,7 +31,24 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(8800, () => {
-  connect();
-  console.log('Connect to Server');
+//socket.io
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    // credentials: true,
+  },
 });
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('notify-new-video', () => {
+    console.log('receive');
+    socket.broadcast.emit('notify', 'Hello world');
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+server.listen(8800);

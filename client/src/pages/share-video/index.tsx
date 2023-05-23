@@ -11,6 +11,7 @@ import {
 import youtubeApi from "../../api/youtubeApi";
 import videoApi from "../../api/videoApi";
 import { toast } from "react-toastify";
+import { socket } from "../../socket-io";
 
 const ShareVideo = () => {
   const [videoUrl, setVideoUrl] = useState("");
@@ -42,6 +43,7 @@ const ShareVideo = () => {
       });
       setVideoUrl("");
       toast("Share video successfully!", { type: "success" });
+      socket.emit("notify-new-video", "hehe");
     } catch {
       setInvalidUrl(true);
     }
