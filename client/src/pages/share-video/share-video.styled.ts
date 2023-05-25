@@ -52,7 +52,7 @@ export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 20%;
+  padding-top: 100px;
 `;
 
 export const ErrorText = styled.div`
