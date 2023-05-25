@@ -32,8 +32,8 @@ const Home = () => {
       dataLength={videoListData.data.length}
       next={fetchVideos}
       hasMore={!!videoListData.nextCursor}
-      loader={<p>Loading...</p>}
-      endMessage={<p>No more data to load.</p>}
+      loader={<Container>Loading...</Container>}
+      endMessage={<Container>No more data to load.</Container>}
     >
       <Container>
         <VideoList data-testid="list">

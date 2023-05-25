@@ -22,10 +22,7 @@ export const signinOrSignup = async (
       return next(new CustomError('Authentication failed', 401));
     }
 
-    res
-      .cookie('access_token', data.token, { httpOnly: true })
-      .status(200)
-      .json(data.user);
+    res.cookie('access_token', data.token).status(200).json(data.user);
   } catch (err) {
     next(err);
   }

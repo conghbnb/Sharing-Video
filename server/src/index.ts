@@ -8,6 +8,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import './mongo';
 import config from './utils/config';
+import notificationQueue from './utils/queue';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 
@@ -34,19 +36,33 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
 
 //socket.io
 const server = http.createServer(app);
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
-    // credentials: true,
+    credentials: true,
   },
+});
+
+io.use((socket, next) => {
+  try {
+    const token = socket.handshake.auth.token;
+    jwt.verify(token, config.JWT);
+    next();
+  } catch {
+    next(new Error('not authenticated'));
+  }
 });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.on('notify-new-video', () => {
-    console.log('receive');
-    socket.broadcast.emit('notify', 'Hello world');
+
+  socket.on('notify-new-video', (...args) => {
+    notificationQueue.addNotificationToQueue({
+      title: args[0],
+      email: args[1],
+    });
   });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -55,17 +71,5 @@ io.on('connection', (socket) => {
 if (config.NODE_ENV !== 'test') {
   server.listen(8800);
 }
-
-// import Queue from 'bull';
-// const videoQueue = new Queue('video', 'redis://127.0.0.1:6379');
-
-// videoQueue.process(function (job, done) {
-//   console.log(job);
-// });
-
-// videoQueue
-//   .add('alskdjmlkzncn')
-//   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
 
 export default server;

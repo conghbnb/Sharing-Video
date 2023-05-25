@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { useEffect } from "react";
 import router from "./route";
 import { socket } from "./socket-io";
@@ -21,8 +20,10 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-    socket.on("notify", (message) => {
-      toast(message);
+    socket.on("notify", (...args) => {
+      if (user?.email !== args[1]) {
+        toast(`${args[1]} shared: ${args[0]}`);
+      }
     });
     return () => {
       socket.removeAllListeners();

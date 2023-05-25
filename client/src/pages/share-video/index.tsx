@@ -12,11 +12,14 @@ import youtubeApi from "../../api/youtubeApi";
 import videoApi from "../../api/videoApi";
 import { toast } from "react-toastify";
 import { socket } from "../../socket-io";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const ShareVideo = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [invalidUrl, setInvalidUrl] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
+  const { user } = useSelector((state: RootState) => state.user);
 
   const youtubeParser = (url: string) => {
     var regExp =
@@ -44,7 +47,9 @@ const ShareVideo = () => {
       });
       setVideoUrl("");
       toast("Share video successfully!", { type: "success" });
-      socket.emit("notify-new-video", "hehe");
+      if (user?.email) {
+        socket.emit("notify-new-video", title, user.email);
+      }
     } catch {
       setInvalidUrl(true);
     }
