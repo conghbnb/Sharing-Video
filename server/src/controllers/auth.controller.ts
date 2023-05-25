@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import bcrypt from 'bcryptjs';
-import User from '../models/User';
-import { CustomError } from '../utils/custom-error';
-import jwt from 'jsonwebtoken';
+import { CustomError } from '../middlewares/custom-error';
+import UserService from '../services/user.service';
 
 export const signinOrSignup = async (
   req: Request,
@@ -11,31 +9,23 @@ export const signinOrSignup = async (
   next: NextFunction
 ) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    let userResponse;
-    //signin
-    if (user) {
-      const isValid = await bcrypt.compare(req.body.password, user.password);
-      if (!isValid) return next(new CustomError('Wrong Credentials', 400));
-      userResponse = user;
-    } else {
-      //signup
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(req.body.password, salt);
-      const newUser = new User({ ...req.body, password: hash });
-      userResponse = await newUser.save();
+    if (!req.body.email || !req.body.password) {
+      return next(new CustomError('Invalid body!', 400));
     }
 
-    const { password, ...userWithoutPassword } = userResponse.toJSON();
-    const token = jwt.sign(
-      { id: userResponse?._id },
-      process.env.JWT as string
+    const data = await UserService.authenticateWithPassword(
+      req.body.email,
+      req.body.password
     );
 
+    if (!data) {
+      return next(new CustomError('Authentication failed', 401));
+    }
+
     res
-      .cookie('access_token', token, { httpOnly: true })
+      .cookie('access_token', data.token, { httpOnly: true })
       .status(200)
-      .json(userWithoutPassword);
+      .json(data.user);
   } catch (err) {
     next(err);
   }

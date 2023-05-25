@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { addVideo, getVideos } from '../controllers/video.controller';
-import { verifyToken } from '../utils/verify-token';
+import { verifyToken } from '../middlewares/verify-token';
 
 const videoRouter = Router();
 

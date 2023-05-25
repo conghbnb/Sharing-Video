@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import config from './utils/config';
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO as string);
+mongoose.connect(config.MONGO);
 
 mongoose.connection.on('connected', () => {
   console.log('Mongo has connected succesfully');

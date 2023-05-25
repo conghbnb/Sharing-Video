@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import Video from '../models/Video';
+import VideoService from '../services/video.service';
 import { CustomRequest } from '../types/common';
 
 export const addVideo = async (
@@ -7,12 +7,11 @@ export const addVideo = async (
   res: Response,
   next: NextFunction
 ) => {
-  const newVideo = new Video({
-    user: (req as CustomRequest).decodedToken.id,
-    ...req.body,
-  });
   try {
-    const savedVideo = await newVideo.save();
+    const savedVideo = await VideoService.create(
+      (req as CustomRequest).decodedToken.id,
+      req.body
+    );
     res.status(200).json(savedVideo);
   } catch (err) {
     next(err);
@@ -24,39 +23,9 @@ export const getVideos = async (
   res: Response,
   next: NextFunction
 ) => {
-  const limit = 5;
-  const cursor = req.query.cursor;
-
-  let videos;
   try {
-    if (cursor) {
-      videos = await Video.find({
-        createdAt: {
-          $lte: new Date(parseInt(cursor as string)),
-        },
-      })
-        .populate('user', 'email')
-        .sort({ createdAt: -1 })
-        .limit(limit + 1)
-        .exec();
-    } else {
-      videos = await Video.find({})
-        .populate('user', 'email')
-        .sort({ createdAt: -1 })
-        .limit(limit + 1);
-    }
-    const max = videos.length === limit + 1;
-    let nextCursor = null;
-    if (max) {
-      const record = videos[limit];
-      var unixTimestamp = record.createdAt.getTime();
-      nextCursor = unixTimestamp.toString();
-      videos.pop();
-    }
-    res.status(200).json({
-      data: videos,
-      nextCursor,
-    });
+    const data = await VideoService.list(req.query.cursor as string);
+    res.status(200).json(data);
   } catch (err) {
     next(err);
   }

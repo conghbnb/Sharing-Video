@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CustomError } from './custom-error';
 import jwt from 'jsonwebtoken';
 import { CustomRequest } from '../types/common';
+import config from '../utils/config';
 
 export const verifyToken = (
   req: Request,
@@ -12,10 +13,7 @@ export const verifyToken = (
   if (!token) return next(new CustomError('You are not authenticated!', 401));
 
   try {
-    const decodedToken = jwt.verify(
-      token,
-      process.env.JWT as string
-    ) as jwt.JwtPayload;
+    const decodedToken = jwt.verify(token, config.JWT) as jwt.JwtPayload;
     (req as CustomRequest).decodedToken = decodedToken;
     next();
   } catch {
