@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { IVideo } from "../../store/types/video";
 import VideoItem from "./video-item";
 import styled from "styled-components";
@@ -6,20 +6,26 @@ import videoApi from "../../api/videoApi";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
-  const [videoListData, setVideoListData] = useState<{
+  const [videoListData, setVideoListData] = React.useState<{
     data: IVideo[];
     nextCursor: string | null;
   }>({ data: [], nextCursor: "" });
 
   const fetchVideos = async () => {
-    const res = await videoApi.getAll(videoListData.nextCursor || "");
-    const allVideos = [...videoListData.data, ...res.data.data];
-    setVideoListData({ data: allVideos, nextCursor: res.data.nextCursor });
+    try {
+      const res = await videoApi.getAll(videoListData.nextCursor || "");
+      const allVideos = [...videoListData.data, ...res.data.data];
+      setVideoListData({ data: allVideos, nextCursor: res.data.nextCursor });
+    } catch (e) {
+      // console.error(e);
+    }
   };
 
   useEffect(() => {
     fetchVideos();
   }, []);
+
+  if (!videoListData.data.length) return <p>Video not found</p>;
 
   return (
     <InfiniteScroll
@@ -30,7 +36,7 @@ const Home = () => {
       endMessage={<p>No more data to load.</p>}
     >
       <Container>
-        <VideoList>
+        <VideoList data-testid="list">
           {videoListData.data.map((video) => (
             <VideoItem key={video._id} video={video} />
           ))}

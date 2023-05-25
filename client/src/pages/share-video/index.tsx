@@ -33,9 +33,10 @@ const ShareVideo = () => {
       setIsSharing(false);
       return;
     }
-    const { data } = await youtubeApi.getVideoData(videoID);
-    const { title, description } = data.items[0].snippet;
     try {
+      const { data } = await youtubeApi.getVideoData(videoID);
+      const { title, description } = data.items[0].snippet;
+
       await videoApi.share({
         title,
         desc: description,
@@ -58,6 +59,7 @@ const ShareVideo = () => {
         <InputContainer>
           <div>Video URL: </div>
           <Input
+            data-testid="video-url-input"
             type="text"
             value={videoUrl}
             onChange={(e) => {
@@ -67,7 +69,11 @@ const ShareVideo = () => {
           />
         </InputContainer>
         {invalidUrl && <ErrorText>Invalid URL!</ErrorText>}
-        <Button disabled={isSharing} onClick={handleShare}>
+        <Button
+          data-testid="submit-btn"
+          disabled={isSharing}
+          onClick={handleShare}
+        >
           {isSharing ? "Sharing..." : "Share"}
         </Button>
       </Container>

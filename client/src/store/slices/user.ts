@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authApi from "../../api/authApi";
 import { ISignInPayload, IUser } from "../types/user";
+import { toast } from "react-toastify";
 
 export const signinOrSignup = createAsyncThunk(
   "user/signinOrSignup",
@@ -47,6 +48,7 @@ export const userSlice = createSlice({
       .addCase(signinOrSignup.rejected, (state) => {
         state.loading = false;
         state.error = true;
+        toast("Invalid email or password!", { type: "error" });
       });
   },
 });

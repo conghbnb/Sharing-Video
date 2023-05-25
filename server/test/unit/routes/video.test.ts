@@ -1,14 +1,14 @@
 // @ts-nocheck
 import supertest from 'supertest';
 import { jest, expect } from '@jest/globals'; // eslint-disable-line
-import server from '../../..';
-import VideoService from '../../../services/video.service';
-import UserService from '../../../services/user.service';
+import server from '../../../src';
+import VideoService from '../../../src/services/video.service';
+import UserService from '../../../src/services/user.service';
 import jwt from 'jsonwebtoken';
-import config from '../../../utils/config';
+import config from '../../../src/utils/config';
 
-jest.mock('../../../services/video.service');
-jest.mock('../../../services/user.service');
+jest.mock('../../../src/services/video.service');
+jest.mock('../../../src/services/user.service');
 
 const user = { email: 'test@example.com' };
 UserService.authenticateWithToken = jest
@@ -55,7 +55,7 @@ describe('/api/videos', () => {
   });
 
   test('add new video', async () => {
-    jest.mock('../../../middlewares/verify-token');
+    jest.mock('../../../src/middlewares/verify-token');
 
     const user = '234234';
 

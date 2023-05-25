@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IVideo } from "../../store/types/video";
+import React from "react";
 
 const Title = styled.div`
   font-weight: 600;
@@ -39,11 +40,11 @@ const VideoItem = ({ video }: { video: IVideo }) => {
         <Text>Shared by: {video.user.email}</Text>
         <Text>Desciption:</Text>
         <Desc>
-          {video.desc.split(/\\n+/).map((p) => (
-            <>
+          {video.desc.split(/\\n+/).map((p, index) => (
+            <React.Fragment key={index}>
               <span>{p}</span>
               <br />
-            </>
+            </React.Fragment>
           ))}
         </Desc>
       </div>

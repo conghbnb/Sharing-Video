@@ -1,20 +1,12 @@
 import { Formik } from "formik";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import { RootState, useAppDispatch } from "../../store";
 import { signinOrSignup } from "../../store/slices/user";
 
 const LoginOrRegisterForm = () => {
   const dispatch = useAppDispatch();
-  const { loading, error } = useSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    if (error) {
-      toast("Invalid email or password!", { type: "error" });
-    }
-  }, [error]);
+  const { loading } = useSelector((state: RootState) => state.user);
 
   return (
     <Formik
@@ -54,6 +46,7 @@ const LoginOrRegisterForm = () => {
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              data-testid="email-input"
             />
             {touched.email && errors.email && (
               <ErrorText>{errors.email}</ErrorText>
@@ -67,12 +60,17 @@ const LoginOrRegisterForm = () => {
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
+              data-testid="password-input"
             />
             {touched.password && errors.password && (
               <ErrorText>{errors.password}</ErrorText>
             )}
           </div>
-          <Button disabled={loading} onClick={() => handleSubmit()}>
+          <Button
+            disabled={loading}
+            onClick={() => handleSubmit()}
+            data-testid="submit-btn"
+          >
             {loading ? "Loading..." : "Login/Register"}
           </Button>
         </InputContainer>

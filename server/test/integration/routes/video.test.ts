@@ -1,4 +1,4 @@
-import server from '../../..';
+import server from '../../../src';
 import supertest from 'supertest';
 import { expect, test } from '@jest/globals';
 

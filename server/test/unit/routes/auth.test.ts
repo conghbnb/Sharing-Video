@@ -1,10 +1,11 @@
 // @ts-nocheck
+
 import supertest from 'supertest';
 import { jest, expect } from '@jest/globals';
-import server from '../../..';
-import UserService from '../../../services/user.service';
+import server from '../../../src';
+import UserService from '../../../src/services/user.service';
 
-jest.mock('../../../services/user.service');
+jest.mock('../../../src/services/user.service');
 
 describe('POST /api/auth/signinOrSignup', () => {
   const user = { email: 'test@example.com' };
