@@ -1,7 +1,6 @@
 import Queue from 'bull';
 import { io } from '..';
-
-const REDIS_URL = 'redis://127.0.0.1:6379';
+import config from './config';
 
 const queueOpts = {
   limiter: {
@@ -26,7 +25,7 @@ class NotificationQueue {
   constructor() {
     this.queue = new Queue<INotificationData>(
       'Notification Queue',
-      REDIS_URL,
+      config.REDIS_URL,
       queueOpts
     );
 

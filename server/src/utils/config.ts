@@ -10,4 +10,6 @@ export default {
   BG_TASKS_QUEUE: process.env.BG_TASKS_QUEUE || 'bg-tasks',
   JWT: process.env.JWT || '',
   MONGO: process.env.MONGO || '',
+  PORT: process.env.PORT || 8800,
+  CLIENT_APP: process.env.CLIENT_APP,
 };

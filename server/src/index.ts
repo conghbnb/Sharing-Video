@@ -16,7 +16,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: config.CLIENT_APP,
   })
 );
 app.use(cookieParser());
@@ -38,7 +38,7 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
 const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: config.CLIENT_APP,
     credentials: true,
   },
 });
@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
 });
 
 if (config.NODE_ENV !== 'test') {
-  server.listen(8800);
+  server.listen(config.PORT);
 }
 
 export default server;
