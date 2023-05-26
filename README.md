@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a web app for sharing YouTube videos that includes the features: Login/Resgister, Share youtube video, Realtime notification
 
 ## Available Scripts
 
