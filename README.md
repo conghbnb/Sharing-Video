@@ -11,17 +11,14 @@ This project is a web app for sharing YouTube videos that includes the features:
 - Clone the repository
 ```
 git clone  https://github.com/conghbnb/Sharing-Video.git <project_name>
-
+```
 - Install dependencies on server
-
 ```
 cd <project_name>
 cd server
 npm install
-```
 
 - Install dependencies on client
-
 ```
 cd ..
 cd client
@@ -29,20 +26,6 @@ npm install
 ```
 
 ## Running the Application
-
-- Server
-
-```
-cd server
-npm start
-```
-
-- Client
-
-```
-cd client
-npm start
-```
 
 Navigate to `http://localhost:3000`
 
