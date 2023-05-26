@@ -16,22 +16,37 @@ git clone  https://github.com/conghbnb/Sharing-Video.git <project_name>
 ```
 cd <project_name>
 cd server
-npm install
+yarn
 ```
 - Install dependencies on client
 ```
 cd ..
 cd client
-npm install
+yarn
 ```
-
 ## Running the Application
-
+- Run server
+```
+cd server
+yarn start
+```
+- Run test on server
+```
+cd server
+yarn test
+```
+- Run client
+```
+cd client
+yarn start
+```
+- Run test on client
+```
+cd client
+yarn test
+```
 Navigate to `http://localhost:3000`
 
+## Usage
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
