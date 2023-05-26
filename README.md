@@ -17,7 +17,7 @@ git clone  https://github.com/conghbnb/Sharing-Video.git <project_name>
 cd <project_name>
 cd server
 npm install
-
+```
 - Install dependencies on client
 ```
 cd ..
