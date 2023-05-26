@@ -6,22 +6,45 @@ This project is a web app for sharing YouTube videos that includes the features:
 
 - Install [Node.js](https://nodejs.org/en/) version 16.x.x
 
-## Installation & Configuration:
+## Installation & Configuration
 
 - Clone the repository
 ```
 git clone  https://github.com/conghbnb/Sharing-Video.git <project_name>
-```
-- Install dependencies
+
+- Install dependencies on server
+
 ```
 cd <project_name>
+cd server
 npm install
 ```
-- Build and run the project
+
+- Install dependencies on client
+
 ```
+cd ..
+cd client
+npm install
+```
+
+## Running the Application
+
+- Server
+
+```
+cd server
 npm start
 ```
-  Navigate to `http://localhost:8001`
+
+- Client
+
+```
+cd client
+npm start
+```
+
+Navigate to `http://localhost:3000`
 
 
 ## Learn More
