@@ -48,5 +48,19 @@ yarn test
 Navigate to `http://localhost:3000`
 
 ## Usage
+- Login/Register
+
+1. Access to home page
+2. Enter email and password then click button to login. If you do not have an account, the app will automatically register
+
+- View all video
+
+1. the app will automatically load more video when you scroll down
+
+- Share video
+
+1. Login or sign up
+2. Click `Share a movie` button
+3. Enter a youtube video url. Example: `https://www.youtube.com/watch?v=fyYLkfmsFEA`
 
 
