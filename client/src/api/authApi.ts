@@ -1,10 +1,13 @@
 import axiosClient from "./axiosClient";
-import { ISignInPayload } from "../store/types/user";
+import { ISignInPayload, IUser } from "../store/types/user";
 
 const authApi = {
-  signinOrSignup(signinPayload: ISignInPayload) {
+  async signinOrSignup(signinPayload: ISignInPayload) {
     const url = "auth/signinOrSignup";
-    return axiosClient.post(url, signinPayload, { withCredentials: true });
+    const res = await axiosClient.post<IUser>(url, signinPayload, {
+      withCredentials: true,
+    });
+    return res.data;
   },
 };
 

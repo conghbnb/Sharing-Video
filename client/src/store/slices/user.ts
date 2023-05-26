@@ -1,17 +1,9 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authApi from "../../api/authApi";
-import { ISignInPayload, IUser } from "../types/user";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import signinOrSignup from "../thunks/user";
+import { IUser } from "../types/user";
 
-export const signinOrSignup = createAsyncThunk(
-  "user/signinOrSignup",
-  async (signinPayload: ISignInPayload) => {
-    const res = await authApi.signinOrSignup(signinPayload);
-    return res.data;
-  }
-);
-
-interface IUserState {
+export interface IUserState {
   loading: boolean;
   error: boolean;
   user: IUser | null;

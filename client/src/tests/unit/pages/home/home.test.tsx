@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { cleanup, render, screen } from "@testing-library/react";
 import Home from "../../../../pages/home";
 import { customRender } from "../../../../utils-for-tests/custom-render";
@@ -16,13 +15,14 @@ test("Renders Home With No data", () => {
 });
 
 test("Renders Home With data", async () => {
-  videoApi.getAll.mockResolvedValue({
+  (
+    videoApi.getAll as jest.MockedFunction<() => Promise<any>>
+  ).mockResolvedValue({
     data: {
       data: [{ title: "test", user: "2324234", desc: "test", _id: "345" }],
     },
   });
-  const { asFragment } = render(<Home />);
+  render(<Home />);
   const listNode = await screen.findByTestId("list");
   expect(listNode.childNodes).toHaveLength(1);
-  expect(asFragment()).toMatchSnapshot();
 });

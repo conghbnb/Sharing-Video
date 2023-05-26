@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
-import { getCookie } from "typescript-cookie";
+// import { getCookie } from "typescript-cookie";
 
-export const socket = io("ws://localhost:8800", {
+export const socket = io(process.env.REACT_APP_WS || '', {
   autoConnect: false,
-  auth: { token: getCookie("access_token") },
+  //uncomment with production
+  // comment because of issue: https://github.com/carhartl/typescript-cookie/issues/1
+  // auth: { token: getCookie("access_token") },
 });

@@ -43,15 +43,18 @@ export const io = new Server(server, {
   },
 });
 
-io.use((socket, next) => {
-  try {
-    const token = socket.handshake.auth.token;
-    jwt.verify(token, config.JWT);
-    next();
-  } catch {
-    next(new Error('not authenticated'));
-  }
-});
+// uncomment with production
+// comment because of issue: https://github.com/carhartl/typescript-cookie/issues/1
+
+// io.use((socket, next) => {
+//   try {
+//     const token = socket.handshake.auth.token;
+//     jwt.verify(token, config.JWT);
+//     next();
+//   } catch {
+//     next(new Error('not authenticated'));
+//   }
+// });
 
 io.on('connection', (socket) => {
   console.log('a user connected');

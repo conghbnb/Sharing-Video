@@ -25,7 +25,7 @@ const Home = () => {
     fetchVideos();
   }, []);
 
-  if (!videoListData.data.length) return <p>Video not found</p>;
+  if (!videoListData.data.length) return <Container>Video not found</Container>;
 
   return (
     <InfiniteScroll

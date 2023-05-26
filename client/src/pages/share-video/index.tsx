@@ -47,7 +47,7 @@ const ShareVideo = () => {
       });
       setVideoUrl("");
       toast("Share video successfully!", { type: "success" });
-      if (user?.email) {
+      if (user) {
         socket.emit("notify-new-video", title, user.email);
       }
     } catch {

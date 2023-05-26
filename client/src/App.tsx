@@ -13,7 +13,9 @@ const App = () => {
   useEffect(() => {
     if (user) {
       socket.connect();
+      return;
     }
+    socket.disconnect();
     return () => {
       socket.disconnect();
     };

@@ -2,6 +2,27 @@ import styled from "styled-components";
 import { IVideo } from "../../store/types/video";
 import React from "react";
 
+const VideoItem = ({ video }: { video: IVideo }) => {
+  return (
+    <Container>
+      <iframe src={video.videoUrl} title="video" allowFullScreen />
+      <div>
+        <Title>{video.title}</Title>
+        <Text>Shared by: {video.user.email}</Text>
+        <Text>Desciption:</Text>
+        <Desc>
+          {video.desc.split(/\\n+/).map((p, index) => (
+            <React.Fragment key={index}>
+              <span>{p}</span>
+              <br />
+            </React.Fragment>
+          ))}
+        </Desc>
+      </div>
+    </Container>
+  );
+};
+
 const Title = styled.div`
   font-weight: 600;
 `;
@@ -30,26 +51,5 @@ const Desc = styled.div`
   height: 120px;
   white-space: pre-wrap;
 `;
-
-const VideoItem = ({ video }: { video: IVideo }) => {
-  return (
-    <Container>
-      <iframe src={video.videoUrl} title="video" allowFullScreen />
-      <div>
-        <Title>{video.title}</Title>
-        <Text>Shared by: {video.user.email}</Text>
-        <Text>Desciption:</Text>
-        <Desc>
-          {video.desc.split(/\\n+/).map((p, index) => (
-            <React.Fragment key={index}>
-              <span>{p}</span>
-              <br />
-            </React.Fragment>
-          ))}
-        </Desc>
-      </div>
-    </Container>
-  );
-};
 
 export default VideoItem;

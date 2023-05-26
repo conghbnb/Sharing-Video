@@ -1,15 +1,9 @@
-// @ts-nocheck
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { cleanup, fireEvent, screen, waitFor } from "@testing-library/react";
 import videoApi from "../../../../api/videoApi";
 import ShareVideo from "../../../../pages/share-video";
 import youtubeApi from "../../../../api/youtubeApi";
 import userEvent from "@testing-library/user-event";
+import { customRender } from "../../../../utils-for-tests/custom-render";
 
 jest.mock("../../../../api/videoApi");
 jest.mock("../../../../api/youtubeApi");
@@ -17,14 +11,17 @@ jest.mock("../../../../api/youtubeApi");
 afterEach(cleanup);
 
 test("form submit", async () => {
-  videoApi.share.mockResolvedValue({});
-  youtubeApi.getVideoData.mockResolvedValue({
+  (videoApi.share as jest.MockedFunction<() => Promise<any>>).mockResolvedValue(
+    {}
+  );
+  (
+    youtubeApi.getVideoData as jest.MockedFunction<() => Promise<any>>
+  ).mockResolvedValue({
     data: { items: [{ snippet: { title: "test", description: "test" } }] },
   });
+  customRender(<ShareVideo />);
 
-  render(<ShareVideo />);
-
-  const videoUrlInput = screen.getByRole("textbox");
+  const videoUrlInput = screen.getByRole<HTMLInputElement>("textbox");
 
   expect(videoUrlInput).toBeInTheDocument();
 
@@ -39,9 +36,9 @@ test("form submit", async () => {
 });
 
 test("Validate Url", () => {
-  render(<ShareVideo />);
+  customRender(<ShareVideo />);
 
-  const videoUrlInput = screen.getByRole("textbox");
+  const videoUrlInput = screen.getByRole<HTMLInputElement>("textbox");
 
   expect(videoUrlInput).toBeInTheDocument();
 

@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState, useAppDispatch } from "../../store";
-import { signinOrSignup } from "../../store/slices/user";
+import signinOrSignup from "../../store/thunks/user";
 
 const LoginOrRegisterForm = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,12 @@ const LoginOrRegisterForm = () => {
         return errors;
       }}
       onSubmit={(values) => {
-        dispatch(signinOrSignup(values));
+        dispatch(
+          signinOrSignup({
+            email: values.email.trim(),
+            password: values.password.trim(),
+          })
+        );
       }}
     >
       {({
