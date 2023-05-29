@@ -24,6 +24,7 @@ cd ..
 cd client
 yarn
 ```
+- Change 2 `.env.sample` files to `.env`
 ## Running the Application
 - Run server
 ```
