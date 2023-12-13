@@ -21,7 +21,7 @@ const VideoItem = ({ video }: { video: IVideo }) => {
       </div>
     </Container> ///hehehe
   );
-};
+}; // hhehe
 
 const Title = styled.div`
   font-weight: 600;
